@@ -1,0 +1,9 @@
+##ARCHIVOS
+.vscode
+*.ndjson
+*.cpu
+*.mod
+*.test
+
+##DIRECTORIOS
+enron_mail_20110402/
