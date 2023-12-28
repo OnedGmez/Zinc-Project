@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .encabezado{
+    @apply font-bold text-red-100 h-11 text-center !important;
+  }
+
+  .spacing{
+    @apply ml-auto mr-auto !important;
+  }
+
+  .data-table{
+    @apply px-2 text-center !important;
+  }
+
+  .special-row{
+    @apply h-14 border-b border-b-red-50 odd:bg-gray-100 hover:cursor-pointer hover:border-b-red-100 !important;
+  }
+}
