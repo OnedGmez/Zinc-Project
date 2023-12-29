@@ -16,6 +16,6 @@
   }
 
   .special-row{
-    @apply h-14 border-b border-b-red-50 odd:bg-gray-100 hover:cursor-pointer hover:border-b-red-100 !important;
+    @apply h-8 border-b border-b-red-50 odd:bg-gray-100 hover:cursor-pointer hover:border-b-red-100 !important;
   }
 }
