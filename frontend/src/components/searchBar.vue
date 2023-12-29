@@ -7,7 +7,7 @@
                 </span>
             </div>
             <div id="input" class="absolute w-full h-full">
-                <input class="border-b border-b-red-100 rounded-full w-full h-full pl-10 focus-visible:outline-0" type="text" placeholder="Buscar por remitente, destinatario o asunto">
+                <input class="border-b border-b-red-100 rounded-full w-full h-full pl-10 focus-visible:outline-0" type="text" placeholder="Buscar por remitente, destinatario o fecha">
             </div>
         </div>
     </main>
