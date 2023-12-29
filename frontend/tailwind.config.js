@@ -46,6 +46,10 @@ export default {
       },
       borderRadius: {
         '4xl': '2rem',
+      },
+      height:{
+        'normal': '94%',
+        'restante': '6%'
       }
     },
   },
