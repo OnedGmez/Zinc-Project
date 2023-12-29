@@ -4,7 +4,6 @@
 *.cpu
 *.mod
 *.test
-output.css
 
 ##DIRECTORIOS
 enron_mail_20110402/
