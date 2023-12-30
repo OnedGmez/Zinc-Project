@@ -185,6 +185,7 @@ func oneLine(content string, sep string) string {
 }
 
 // /*
+// @DEPRECADO: Ahora utiliza la misma función pero consumiendo el REST API
 // createIndex es la función utilizada para enviar la data a OpenObserve
 // @param content: string, contiene el string con la data a enviar a Openobserve
 // */
