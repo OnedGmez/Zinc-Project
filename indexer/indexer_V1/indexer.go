@@ -39,8 +39,8 @@ var (
 	i        int = 0
 	limitDir int = -1
 	wge      sync.WaitGroup
-	r        = regexp.MustCompile("\\t+")
-	n        = regexp.MustCompile("\\n+")
+	r        = regexp.MustCompile(`\t+`)
+	n        = regexp.MustCompile(`\n+`)
 
 	//ACCESS
 	principalPath = "../enron_mail_20110402/maildir"
@@ -150,8 +150,8 @@ func formatContent(content string) string {
 	if string(content) != "" {
 		content = strings.TrimSpace(content)
 		content = strings.ReplaceAll(content, `\`, ` \\ `)
-		content = (r.ReplaceAllString(string(content), " [.SANGRIA.] "))
-		content = (n.ReplaceAllString(string(content), " [.SALTO.] "))
+		content = (string(r.ReplaceAll([]byte(content), []byte(" [.SANGRIA.] "))))
+		content = (string(n.ReplaceAll([]byte(content), []byte(" [.SALTO.] "))))
 		content = strings.ReplaceAll(content, `"`, `\"`)
 		if returnData != "\n" {
 			returnData = returnData + string(content)
