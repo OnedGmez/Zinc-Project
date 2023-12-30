@@ -184,14 +184,36 @@ func oneLine(content string, sep string) string {
 	return returnData
 }
 
+// /*
+// createIndex es la función utilizada para enviar la data a OpenObserve
+// @param content: string, contiene el string con la data a enviar a Openobserve
+// */
+// func createIndex(content []byte) {
+// 	user := "ogsystem@gmail.com"
+// 	pass := "Complexpass#123"
+// 	url := "http://localhost:5080/api/default/email/_json"
+// 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(content))
+// 	if err != nil {
+// 		log.Println("No fue posible conectarse ", err)
+// 	} else {
+// 		req.SetBasicAuth(user, pass)
+// 		r, err := client.Do(req)
+// 		if err != nil {
+// 			log.Println("Sin respuesta ", err)
+// 		} else {
+// 			defer r.Body.Close()
+// 		}
+// 	}
+// }
+
 /*
-oneLine es la función utilizada para enviar la data a OpenObserve
+createIndex es la función utilizada para enviar la data a OpenObserve
 @param content: string, contiene el string con la data a enviar a Openobserve
 */
 func createIndex(content []byte) {
 	user := "ogsystem@gmail.com"
 	pass := "Complexpass#123"
-	url := "http://localhost:5080/api/default/email/_json"
+	url := "http://localhost:3000/Postemails"
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(content))
 	if err != nil {
 		log.Println("No fue posible conectarse ", err)
