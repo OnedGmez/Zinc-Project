@@ -4,6 +4,7 @@
 *.cpu
 *.mod
 *.test
+*.sum
 
 ##DIRECTORIOS
 enron_mail_20110402/
