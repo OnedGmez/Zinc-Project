@@ -28,8 +28,8 @@ func GetEmailsData(w http.ResponseWriter, req *http.Request) {
 	url := "http://localhost:5080/api/default/_search"
 	criterion := req.URL.Query()["criterion"]
 	value := req.URL.Query()["value"]
-	if criterion[0] == "to" {
-		query = `{"query": {"from": 0, "size": 80000, "sql": "SELECT * FROM \"email\" WHERE` + ` \"to\" LIKE ` + `'%` + strings.TrimSpace(value[0]) + `%'"}}`
+	if criterion[0] == "to" || criterion[0] == "subject" {
+		query = `{"query": {"from": 0, "size": 80000, "sql": "SELECT * FROM \"email\" WHERE` + ` \"` + criterion[0] + `\" LIKE ` + `'%` + strings.TrimSpace(value[0]) + `%'"}}`
 	} else {
 		query = `{"query": {"from": 0, "size": 80000, "sql": "SELECT * FROM \"email\" WHERE` + ` \"from\" LIKE ` + `'` + strings.TrimSpace(value[0]) + `%'"}}`
 	}
