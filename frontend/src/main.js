@@ -9,12 +9,14 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 
 import App from './App.vue'
 import router from './router'
+import axios from 'axios'
 
 library.add(fas)
 
 const app = createApp(App)
 
 app.component('font-awesome-icon', FontAwesomeIcon)
+app.config.globalProperties.axios=axios
 app.use(createPinia())
 app.use(router)
 
