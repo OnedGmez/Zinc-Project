@@ -69,6 +69,7 @@ watchEffect(() => {
             } else {
                 dataPages.value.push(dataTMP)
                 dataTMP = []
+                dataTMP.push(row)
             }
 
             if (i == data.value.length && dataTMP != []){
