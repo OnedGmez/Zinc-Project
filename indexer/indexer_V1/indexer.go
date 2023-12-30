@@ -41,6 +41,7 @@ var (
 	wge      sync.WaitGroup
 	r        = regexp.MustCompile(`\t+`)
 	n        = regexp.MustCompile(`\n+`)
+	client   = http.Client{}
 
 	//ACCESS
 	principalPath = "../enron_mail_20110402/maildir"
@@ -188,11 +189,9 @@ oneLine es la función utilizada para enviar la data a OpenObserve
 @param content: string, contiene el string con la data a enviar a Openobserve
 */
 func createIndex(content []byte) {
-	client := http.Client{}
 	user := "ogsystem@gmail.com"
 	pass := "Complexpass#123"
 	url := "http://localhost:5080/api/default/email/_json"
-
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(content))
 	if err != nil {
 		log.Println("No fue posible conectarse ", err)
