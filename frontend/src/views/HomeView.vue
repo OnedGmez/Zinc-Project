@@ -34,7 +34,7 @@ var msgData = ref('')
 
 const chargeData = async (data) => {
   try {
-    axios.get('http://localhost:3000/emails', {
+    axios.get('http://localhost:3000/Getemails', {
       params: {
         "criterion": data[0],
         "value": data[1],
