@@ -50,6 +50,10 @@ export default {
       height:{
         'normal': '94%',
         'restante': '6%'
+      },
+      maxHeight: {
+        'max-normal': '94%',
+        'max-restante': '6%'
       }
     },
   },
