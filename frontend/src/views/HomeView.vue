@@ -41,7 +41,7 @@ const chargeData = async (data) => {
       }
     }).then(response => {
       store.accumulatedData = response.data["hits"]
-      store.pages = Math.ceil(response.data["total"]/15)
+      store.pages = Math.ceil(response.data["total"]/16)
     })
   } catch (error) {
     console.log(error)
