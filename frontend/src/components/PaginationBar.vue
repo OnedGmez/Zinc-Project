@@ -9,13 +9,10 @@
         <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
             <div>
                 <p class="text-sm text-gray-700">
-                    Showing
-                    <span class="font-medium">{{ pag }}</span>
-                    to
-                    <span class="font-medium">10</span>
-                    of
-                    <span class="font-medium">97</span>
-                    results
+                    Página
+                    <span class="font-medium">{{ store.actualP }}</span>
+                    de
+                    <span class="font-medium"> {{ store.pages }} </span>
                 </p>
             </div>
             <div class="flex">
@@ -25,7 +22,7 @@
                         <font-awesome-icon icon="angles-left" />
                     </span>
                 </div>
-                <div id="next" @click="cambioPag('s')" class="ml-7 hover:cursor-pointer hover:text-red-100">
+                <div id="next" @click="cambioPag('p')" class="ml-7 hover:cursor-pointer hover:text-red-100">
                     <span>
                         <font-awesome-icon icon="angles-right" />
                     </span>
@@ -36,16 +33,25 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-var pag = ref(1)
+import { ref, watchEffect } from 'vue';
+import { useDataStore } from '@/stores/data.js';
+
+const store = useDataStore();
 
 const cambioPag = (op) => {
-    if (op == "s") {
-        pag.value += 1;
+    if ((op == "p") && (store.actualP != store.pages)) {
+        store.actualP += 1;
+        console.log(store.actualP)
     } else {
-        if (pag.value > 1) {
-            pag.value -= 1;
+        if (store.actualP > 1) {
+            store.actualP -= 1;
         }
     }
 }
+
+watchEffect(() =>{
+    if (store.accumulatedData != ''){
+        store.actualP = 1
+    }
+})
 </script>
