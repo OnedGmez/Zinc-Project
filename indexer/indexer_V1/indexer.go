@@ -131,8 +131,8 @@ func processEmail(path string, wge *sync.WaitGroup) {
 			emailsData <- emailSt{
 				Id:      path,
 				Date:    date,
-				From:    from,
-				To:      to,
+				From:    strings.ToLower(from),
+				To:      strings.ToLower(to),
 				Subject: subject,
 				Body:    formatContent(string(body)),
 			}
