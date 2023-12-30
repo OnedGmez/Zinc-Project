@@ -17,12 +17,12 @@
             </div>
             <div class="flex">
                 <!--BOTONES-->
-                <div id="prev" @click="cambioPag('m')" disabled class="mr-7 hover:cursor-pointer hover:text-red-100">
+                <div id="prev" @click="changeDownPage('m')" disabled class="mr-7 hover:cursor-pointer hover:text-red-100">
                     <span>
                         <font-awesome-icon icon="angles-left" />
                     </span>
                 </div>
-                <div id="next" @click="cambioPag('p')" class="ml-7 hover:cursor-pointer hover:text-red-100">
+                <div id="next" @click="changeUpPage('p')" class="ml-7 hover:cursor-pointer hover:text-red-100">
                     <span>
                         <font-awesome-icon icon="angles-right" />
                     </span>
@@ -38,19 +38,20 @@ import { useDataStore } from '@/stores/data.js';
 
 const store = useDataStore();
 
-const cambioPag = (op) => {
+const changeUpPage = (op) => {
     if ((op == "p") && (store.actualP != store.pages)) {
         store.actualP += 1;
-        console.log(store.actualP)
-    } else {
-        if (store.actualP > 1) {
-            store.actualP -= 1;
-        }
     }
 }
 
-watchEffect(() =>{
-    if (store.accumulatedData != ''){
+const changeDownPage = (op) => {
+    if (store.actualP > 1) {
+        store.actualP -= 1;
+    }
+}
+
+watchEffect(() => {
+    if (store.accumulatedData != '') {
         store.actualP = 1
     }
 })
