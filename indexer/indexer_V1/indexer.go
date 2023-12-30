@@ -17,6 +17,8 @@ import (
 const (
 	// principalPath   = "email/"
 	dataIndexedPath = "data.ndjson"
+	user            = "ogsystem@gmail.com"
+	pass            = "Complexpass#123"
 )
 
 type emailSt struct {
@@ -212,8 +214,6 @@ createIndex es la función utilizada para enviar la data a OpenObserve
 @param content: string, contiene el string con la data a enviar a Openobserve
 */
 func createIndex(content []byte) {
-	user := "ogsystem@gmail.com"
-	pass := "Complexpass#123"
 	url := "http://localhost:3000/Postemails"
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(content))
 	if err != nil {
