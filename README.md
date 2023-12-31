@@ -7,6 +7,7 @@ _Interfaz para buscar información de base de datos de correos_
 - [Nodejs](https://nodejs.org/en)
 - [Golang](https://go.dev/)
 - [Git](https://git-scm.com/)
+- [openObserve/ZincSearch](https://openobserve.ai/docs/quickstart/#openobserve-cloud)
 
 ## Copiar el proyecto 🚀
 _Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
@@ -48,7 +49,9 @@ opción 2: # go run indexer.go
 
 * [VueJs](https://vuejs.org/) - Framework web utilizado
 * [Tailwind CSS](https://maven.apache.org/) - Framework CSS
+* [ZincSearch](https://openobserve.ai/docs/quickstart/#openobserve-cloud) - Base de datos
 * [GO](https://go.dev/) - Lenguaje utilizado en el indexer y el API
+* [chi](https://go.dev/) - API Router
 * [Axios](https://axios-http.com/docs/intro) - Cliente HTTP
 
 ## Autor ✒️
