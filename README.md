@@ -52,7 +52,7 @@ opción 2: # go run indexer.go
 * [ZincSearch](https://openobserve.ai/docs/quickstart/#openobserve-cloud) - Base de datos
 * [GO](https://go.dev/) - Lenguaje utilizado en el indexer y el API
 * [chi](https://go.dev/) - API Router
-* [Axios](https://axios-http.com/docs/intro) - Cliente HTTP
+* [Axios](https://axios-http.com/docs/intro) - Cliente HTTP para peticiones del frontend
 
 ## Autor ✒️
 
