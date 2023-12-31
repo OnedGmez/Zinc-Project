@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"flag"
 	"io"
 	"log"
 	"net/http"
@@ -15,10 +14,12 @@ import (
 )
 
 const (
-	// principalPath   = "email/"
+	principalPath   = "../enron_mail_20110402/maildir"
 	dataIndexedPath = "data.ndjson"
 	user            = "ogsystem@gmail.com"
 	pass            = "Complexpass#123"
+	url             = "http://localhost:5080/api/default/email/_json"
+	urlEP           = "http://localhost:3000/Postemails"
 )
 
 type emailSt struct {
@@ -33,21 +34,20 @@ type emailSt struct {
 var (
 	//CHANNELS
 	emailsPath = make(chan string)
-	valid      = make(chan bool)
 	emailsData = make(chan emailSt)
 
 	//CONTROL VARIABLES
-	jsonData []string
-	i        int = 0
-	limitDir int = -1
-	wge      sync.WaitGroup
-	r        = regexp.MustCompile(`\t+`)
-	n        = regexp.MustCompile(`\n+`)
-	client   = http.Client{}
+	i      int = 0
+	wge    sync.WaitGroup
+	r      = regexp.MustCompile(`\t+`)
+	n      = regexp.MustCompile(`\n+`)
+	client = http.Client{}
 
-	//ACCESS
-	principalPath = "../enron_mail_20110402/maildir"
-	cpuprofile    = flag.String("cpuprofile", "", "Escribe el perfil del cpu en archivo")
+	//DATA CHANGING
+	to      string
+	from    string
+	date    string
+	subject string
 )
 
 func main() {
@@ -84,22 +84,16 @@ navDir es la función utilizada para navegar por los directorios y obtener las r
 @param wge: sync.WaitGroup, se utiliza para controlar las Go rutines
 */
 func navDir(path string, wge *sync.WaitGroup) {
-	if path != "" {
-		dir, err := os.ReadDir(path)
-		if err != nil {
-			log.Println("No se puede leer la dirección: ", err)
-		}
-
-		for _, file := range dir {
-			i++
-			if limitDir == -1 || i <= limitDir {
-				if file.Type().IsDir() {
-					navDir(path+"/"+file.Name(), wge)
-				} else {
-					wge.Add(1) //Agregamos 1 unidad por cada ruta de archivo de email encontrado
-					emailsPath <- path + "/" + file.Name()
-				}
-			}
+	dir, err := os.ReadDir(path)
+	if err != nil {
+		log.Println("No se puede leer la dirección: ", err)
+	}
+	for _, file := range dir {
+		if file.Type().IsDir() {
+			navDir(path+"/"+file.Name(), wge)
+		} else {
+			wge.Add(1) //Agregamos 1 unidad por cada ruta de archivo de email encontrado
+			emailsPath <- path + "/" + file.Name()
 		}
 	}
 }
@@ -119,14 +113,12 @@ func processEmail(path string, wge *sync.WaitGroup) {
 	//Reformatear el contenido del archivo
 	r := strings.NewReader(string(content))
 	msg, err := mail.ReadMessage(r)
-	if err != nil {
-		log.Println("No se pudo leer el contenido del correo: ", path, " ", err)
-	} else {
+	if err == nil {
 		header := msg.Header
-		to := oneLine(header.Get("To"), "\n")
-		from := oneLine(header.Get("From"), "\n")
-		date := header.Get("Date")
-		subject := header.Get("Subject")
+		to = oneLine(header.Get("To"), "\n")
+		from = oneLine(header.Get("From"), "\n")
+		date = header.Get("Date")
+		subject = header.Get("Subject")
 		body, err := io.ReadAll(msg.Body)
 		if err != nil {
 			log.Println("No se pudo extraer el conenido ", err)
@@ -140,6 +132,8 @@ func processEmail(path string, wge *sync.WaitGroup) {
 				Body:    formatContent(string(body)),
 			}
 		}
+	} else {
+		log.Println("No se pudo leer el contenido del correo: ", path, " ", err)
 	}
 }
 
@@ -186,35 +180,11 @@ func oneLine(content string, sep string) string {
 	return returnData
 }
 
-// /*
-// @DEPRECADO: Ahora utiliza la misma función pero consumiendo el REST API
-// createIndex es la función utilizada para enviar la data a OpenObserve
-// @param content: string, contiene el string con la data a enviar a Openobserve
-// */
-// func createIndex(content []byte) {
-// 	user := "ogsystem@gmail.com"
-// 	pass := "Complexpass#123"
-// 	url := "http://localhost:5080/api/default/email/_json"
-// 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(content))
-// 	if err != nil {
-// 		log.Println("No fue posible conectarse ", err)
-// 	} else {
-// 		req.SetBasicAuth(user, pass)
-// 		r, err := client.Do(req)
-// 		if err != nil {
-// 			log.Println("Sin respuesta ", err)
-// 		} else {
-// 			defer r.Body.Close()
-// 		}
-// 	}
-// }
-
 /*
 createIndex es la función utilizada para enviar la data a OpenObserve
 @param content: string, contiene el string con la data a enviar a Openobserve
 */
 func createIndex(content []byte) {
-	url := "http://localhost:3000/Postemails"
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(content))
 	if err != nil {
 		log.Println("No fue posible conectarse ", err)
@@ -228,3 +198,23 @@ func createIndex(content []byte) {
 		}
 	}
 }
+
+// /*
+// RETIRADO POR CONSUMO EXCESIVO EN RENDIMIENTO
+// createIndex es la función utilizada para enviar la data a OpenObserve
+// @param content: string, contiene el string con la data a enviar a Openobserve
+// */
+// func createIndex(content []byte) {
+// 	req, err := http.NewRequest("POST", urlEP, bytes.NewBuffer(content))
+// 	if err != nil {
+// 		log.Println("No fue posible conectarse ", err)
+// 	} else {
+// 		req.SetBasicAuth(user, pass)
+// 		r, err := client.Do(req)
+// 		if err != nil {
+// 			log.Println("Sin respuesta ", err)
+// 		} else {
+// 			defer r.Body.Close()
+// 		}
+// 	}
+// }
