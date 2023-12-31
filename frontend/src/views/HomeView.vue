@@ -1,8 +1,8 @@
 <template>
   <main class="pt-4 h-normal">
     <section>
-      <div id="search">
-        <searchBar class="spacing w-10/12" @search="(splitContent) => chargeData(splitContent)" />
+      <div id="search" class="w-10/12 spacing">
+        <searchBar class="spacing" @search="(splitContent) => chargeData(splitContent)" />
       </div>
     </section>
     <section class="pt-4 h-normal">
