@@ -53,6 +53,28 @@ func PostEmailsData(w http.ResponseWriter, req *http.Request) {
 }
 
 /*
+PostEmailsData función de endpoint utilizada para enviar los datos a almacenar en openobserve
+
+@Versión: 2.0
+*/
+func PostEmailsDataV2(w http.ResponseWriter, req *http.Request) {
+	url := "http://localhost:5080/api/default/email/_multi"
+	content, _ := io.ReadAll(req.Body)
+	r, err := http.NewRequest("POST", url, bytes.NewBuffer(content))
+	if err != nil {
+		log.Println("No fue posible conectarse ", err)
+	} else {
+		r.SetBasicAuth(user, pass)
+		response, err := client.Do(r)
+		if err != nil {
+			fmt.Println("Sin respuesta ", err)
+		} else {
+			defer response.Body.Close()
+		}
+	}
+}
+
+/*
 GetEmailsData función de endpoint utilizada para extraer los datos que necesitamos desde Openobserve
 */
 func GetEmailsData(w http.ResponseWriter, req *http.Request) {
@@ -121,6 +143,7 @@ func main() {
 	router.Get("/Getemails", GetEmailsData)
 	router.Delete("/Delemails", DelEmailsData)
 	router.Post("/Postemails", PostEmailsData)
+	router.Post("/Postemails_V2", PostEmailsDataV2)
 
 	log.Println(http.ListenAndServe(":3000", router))
 }
