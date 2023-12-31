@@ -6,8 +6,6 @@ import (
 	"testing"
 )
 
-var res = make(chan string)
-
 func TestNavDir(t *testing.T) {
 	go func() {
 		for p := range emailsPath {
