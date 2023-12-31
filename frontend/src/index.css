@@ -18,4 +18,8 @@
   .special-row{
     @apply h-8 border-b border-b-red-50 odd:bg-gray-100 hover:cursor-pointer hover:border-b-red-100 !important;
   }
+
+  .alert{
+    @apply fixed bottom-0 right-0 rounded-2xl bg-red-100 w-fit text-white py-4 px-5 m-5 !important;
+  }
 }
