@@ -82,9 +82,9 @@ func GetEmailsData(w http.ResponseWriter, req *http.Request) {
 	criterion := req.URL.Query()["criterion"]
 	value := req.URL.Query()["value"]
 	if criterion[0] == "to" || criterion[0] == "subject" {
-		query = `{"query": {"from": 0, "size": 80000, "sql": "SELECT * FROM \"email\" WHERE` + ` \"` + criterion[0] + `\" LIKE ` + `'%` + strings.TrimSpace(value[0]) + `%' ORDER BY id ASC"}}`
+		query = `{"query": {"from": 0, "size": 80000, "sql": "SELECT DISTINCT(\"id\"), \"from\", \"to\", \"subject\", \"date\", \"body\" FROM \"email\" WHERE` + ` \"` + criterion[0] + `\" LIKE ` + `'%` + strings.TrimSpace(value[0]) + `%' ORDER BY id ASC"}}`
 	} else {
-		query = `{"query": {"from": 0, "size": 80000, "sql": "SELECT * FROM \"email\" WHERE` + ` \"from\" LIKE ` + `'` + strings.TrimSpace(value[0]) + `%' ORDER BY id ASC"}}`
+		query = `{"query": {"from": 0, "size": 80000, "sql": "SELECT DISTINCT(\"id\"), \"from\", \"to\", \"subject\", \"date\", \"body\" FROM \"email\" WHERE` + ` \"from\" LIKE ` + `'` + strings.TrimSpace(value[0]) + `%' ORDER BY id ASC"}}`
 	}
 	r, err := http.NewRequest("POST", url, strings.NewReader(query))
 	if err != nil {
